@@ -39,18 +39,14 @@ public class Driver {
 
         int width = (longestString + 1) * size;
 
-        String header = "2048 ";
-        String footer = "";
+        String seperator = "";
 
-        while (header.length() < width) {
-            header += "~";
+        while (seperator.length() < width) {
+            seperator += "~";
         }
 
-        while (footer.length() < width) {
-            footer += "~";
-        }
-
-        System.out.println(header);
+        System.out.println("");
+        System.out.println(seperator);
 
         for (int y = 0; y < size; y++) {
             String rowString = "";
@@ -62,15 +58,26 @@ public class Driver {
             System.out.println(rowString);
         }
 
-        System.out.println(footer);
+        System.out.println(seperator);
     }
 
     public static void main(String[] args) {
+        System.out.println(
+                "  ____     ___    _  _      ___  \n"
+                + " |___ \\   / _ \\  | || |    ( _ ) \n"
+                + "   __) | | | | | | || |_   / _ \\ \n"
+                + "  / __/  | |_| | |__   _| | (_) |\n"
+                + " |_____|  \\___/     |_|    \\___/ \n"
+                + "                                 "
+        );
+
         TwentyFortyEight game = new TwentyFortyEight(4);
 
         Scanner input = new Scanner(System.in);
+        
+        print(game);
 
-        while (game.gameEnded() == false) {
+        while (game.canPlay()) {
             char move = ' ';
 
             System.out.println("Input W/A/S/D:");
@@ -82,7 +89,7 @@ public class Driver {
             }
 
             game.play(move);
-            
+
             print(game);
         }
 

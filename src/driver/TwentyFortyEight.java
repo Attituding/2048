@@ -2,6 +2,7 @@ package driver;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TwentyFortyEight {
 
@@ -23,15 +24,43 @@ public class TwentyFortyEight {
                 setValue(row, column, EMPTY);
             }
         }
+
+        placeNumber();
+        placeNumber();
     }
-    
-    public boolean gameEnded() {
-        return getEmptySquares().isEmpty();
+
+    public boolean canPlay() {
+        // If there is atleast one empty square, the game can continue
+        if (getEmptySquares().isEmpty() == false) {
+            return true;
+        }
+
+        // Searching for possible merges
+        int[][] columns = getColumns();
+        int[][] rows = getRows();
+        int[][] lines = Arrays.copyOf(columns, columns.length + rows.length);
+        System.arraycopy(rows, 0, lines, columns.length, rows.length);
+
+        for (int[] line : lines) {
+            for (int i = 0; i + 1 < line.length; i++) {
+                if (line[i] == line[i + 1]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public void play(char input) {
+        ArrayList<Point> before = getEmptySquares();
         updateBoard(input);
-        placeNumber();
+        ArrayList<Point> after = getEmptySquares();
+
+        // Checking for change
+        if (before.equals(after) == false) {
+            placeNumber();
+        }
     }
 
     private void updateBoard(char input) {
@@ -59,7 +88,7 @@ public class TwentyFortyEight {
             setRows(axes);
         }
     }
-    
+
     private void placeNumber() {
         ArrayList<Point> emptySquares = getEmptySquares();
         int randomNumber = getNumber();
@@ -67,15 +96,15 @@ public class TwentyFortyEight {
         Point randomSquare = emptySquares.get(randomIndex);
         setValue(randomSquare.y, randomSquare.x, randomNumber);
     }
-    
+
     private void reverseAxes(int[][] axes) {
         for (int[] axis : axes) {
             int[] newAxis = new int[axis.length];
-            
+
             for (int i = 0; i < axis.length; i++) {
                 newAxis[axis.length - i - 1] = axis[i];
             }
-            
+
             for (int i = 0; i < axis.length; i++) {
                 axis[i] = newAxis[i];
             }
@@ -89,7 +118,7 @@ public class TwentyFortyEight {
             compressArray(axis);
         }
     }
-    
+
     private void compressArray(int[] array) {
         ArrayList<Integer> tempList = new ArrayList();
 
@@ -146,27 +175,49 @@ public class TwentyFortyEight {
                 }
             }
         }
-        
+
         return emptySquares;
+    }
+
+    private ArrayList<Point> getNeighbors(int row, int column) {
+        ArrayList<Point> neighbors = new ArrayList();
+
+        if (isInBounds(row - 1, column)) { // North
+            neighbors.add(new Point(column, row - 1));
+        }
+
+        if (isInBounds(row, column + 1)) { // East
+            neighbors.add(new Point(column + 1, row));
+        }
+
+        if (isInBounds(row + 1, column)) { // South
+            neighbors.add(new Point(column, row + 1));
+        }
+
+        if (isInBounds(row, column - 1)) { //West
+            neighbors.add(new Point(column - 1, row));
+        }
+
+        return neighbors;
     }
 
     private int getNumber() {
         int chance = (int) (Math.random() * 10);
-        
+
         if (chance == 0) {
             return 4;
         }
-        
+
         return 2;
     }
 
     private int[][] getRows() {
         return board;
     }
-    
+
     public int getScore() {
         int highest = 0;
-        
+
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 int value = getValue(y, x);
@@ -175,16 +226,24 @@ public class TwentyFortyEight {
                 }
             }
         }
-        
+
         return highest;
     }
-    
+
     public int getSize() {
         return size;
     }
 
     public int getValue(int row, int column) {
         return board[row][column];
+    }
+
+    public boolean isInBounds(int row, int column) {
+        return isInBounds(row) && isInBounds(column);
+    }
+
+    public boolean isInBounds(int axis) {
+        return axis >= 0 && axis < size;
     }
 
     private void setColumns(int[][] columns) {
