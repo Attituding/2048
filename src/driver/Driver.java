@@ -37,6 +37,21 @@ public class Driver {
             }
         }
 
+        int width = (longestString + 1) * size;
+
+        String header = "2048 ";
+        String footer = "";
+
+        while (header.length() < width) {
+            header += "~";
+        }
+
+        while (footer.length() < width) {
+            footer += "~";
+        }
+
+        System.out.println(header);
+
         for (int y = 0; y < size; y++) {
             String rowString = "";
 
@@ -46,16 +61,16 @@ public class Driver {
 
             System.out.println(rowString);
         }
+
+        System.out.println(footer);
     }
 
     public static void main(String[] args) {
-        TwentyFortyEight game = new TwentyFortyEight(8);
+        TwentyFortyEight game = new TwentyFortyEight(4);
 
         Scanner input = new Scanner(System.in);
 
         while (game.gameEnded() == false) {
-            print(game);
-
             char move = ' ';
 
             System.out.println("Input W/A/S/D:");
@@ -67,10 +82,12 @@ public class Driver {
             }
 
             game.play(move);
+            
+            print(game);
         }
 
         input.close();
 
-        System.out.println("Game over! Score is " + game.getScore() + "!");
+        System.out.println("Game over! You got a score of " + game.getScore() + "!");
     }
 }

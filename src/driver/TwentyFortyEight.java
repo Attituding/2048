@@ -60,6 +60,14 @@ public class TwentyFortyEight {
         }
     }
     
+    private void placeNumber() {
+        ArrayList<Point> emptySquares = getEmptySquares();
+        int randomNumber = getNumber();
+        int randomIndex = (int) (Math.random() * emptySquares.size());
+        Point randomSquare = emptySquares.get(randomIndex);
+        setValue(randomSquare.y, randomSquare.x, randomNumber);
+    }
+    
     private void reverseAxes(int[][] axes) {
         for (int[] axis : axes) {
             int[] newAxis = new int[axis.length];
@@ -81,19 +89,7 @@ public class TwentyFortyEight {
             compressArray(axis);
         }
     }
-
-    private void mergeArray(int[] array) {
-        for (int i = 0; i + 1 < array.length; i++) {
-            Integer first = array[i];
-            Integer second = array[i + 1];
-
-            if (first.equals(second)) {
-                array[i] = first + second;
-                array[i + 1] = EMPTY;
-            }
-        }
-    }
-
+    
     private void compressArray(int[] array) {
         ArrayList<Integer> tempList = new ArrayList();
 
@@ -112,12 +108,16 @@ public class TwentyFortyEight {
         }
     }
 
-    private void placeNumber() {
-        ArrayList<Point> emptySquares = getEmptySquares();
-        int randomNumber = getNumber();
-        int randomIndex = (int) (Math.random() * emptySquares.size());
-        Point randomSquare = emptySquares.get(randomIndex);
-        setValue(randomSquare.y, randomSquare.x, randomNumber);
+    private void mergeArray(int[] array) {
+        for (int i = 0; i + 1 < array.length; i++) {
+            Integer first = array[i];
+            Integer second = array[i + 1];
+
+            if (first.equals(second)) {
+                array[i] = first + second;
+                array[i + 1] = EMPTY;
+            }
+        }
     }
 
     private int[][] getColumns() {
