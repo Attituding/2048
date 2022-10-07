@@ -60,6 +60,20 @@ public class Driver {
 
         System.out.println(seperator);
     }
+    
+    public static char generateMove() {
+        int randomInt = (int) (Math.random() * 4);
+        
+        if (randomInt == 0) {
+            return 'w';
+        } else if (randomInt == 1) {
+            return 'a';
+        } else if (randomInt == 2) {
+            return 's';
+        } else {
+            return 'd';
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println(
@@ -82,7 +96,8 @@ public class Driver {
 
             System.out.println("Input W/A/S/D:");
             move = input.next().charAt(0);
-
+            // move = generateMove();
+            
             while (move != TwentyFortyEight.INPUT_UP && move != TwentyFortyEight.INPUT_LEFT && move != TwentyFortyEight.INPUT_DOWN && move != TwentyFortyEight.INPUT_RIGHT) {
                 System.out.println("Invalid input. Try again:");
                 move = input.next().charAt(0);

@@ -179,28 +179,6 @@ public class TwentyFortyEight {
         return emptySquares;
     }
 
-    private ArrayList<Point> getNeighbors(int row, int column) {
-        ArrayList<Point> neighbors = new ArrayList();
-
-        if (isInBounds(row - 1, column)) { // North
-            neighbors.add(new Point(column, row - 1));
-        }
-
-        if (isInBounds(row, column + 1)) { // East
-            neighbors.add(new Point(column + 1, row));
-        }
-
-        if (isInBounds(row + 1, column)) { // South
-            neighbors.add(new Point(column, row + 1));
-        }
-
-        if (isInBounds(row, column - 1)) { //West
-            neighbors.add(new Point(column - 1, row));
-        }
-
-        return neighbors;
-    }
-
     private int getNumber() {
         int chance = (int) (Math.random() * 10);
 
@@ -218,7 +196,7 @@ public class TwentyFortyEight {
     public int getScore() {
         int highest = 0;
 
-        for (int y = 0; y < size; y++) {
+        for (  int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 int value = getValue(y, x);
                 if (value > highest) {
@@ -236,14 +214,6 @@ public class TwentyFortyEight {
 
     public int getValue(int row, int column) {
         return board[row][column];
-    }
-
-    public boolean isInBounds(int row, int column) {
-        return isInBounds(row) && isInBounds(column);
-    }
-
-    public boolean isInBounds(int axis) {
-        return axis >= 0 && axis < size;
     }
 
     private void setColumns(int[][] columns) {
